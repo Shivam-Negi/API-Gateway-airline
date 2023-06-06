@@ -9,7 +9,7 @@ const { SuccessResponse, ErrorResponse } = require('../utils/common');
  * req-body {email: 'xyz@gmail.com', password: '1jkj1'}
  */
 
-async function createUser(req, res) {
+async function createUser(req, res) {    // signup
     try {
         //console.log('inside controller')
         const user = await UserService.createUser({
@@ -31,39 +31,18 @@ async function createUser(req, res) {
     }
 }
 
-/**
- * DELETE : /cities/:id
- * req-body {}
- */
-async function destroyCity(req, res) {
+async function signin(req, res) {
     try {
-        const city = await CityService.destroyCity(req.params.id);
-        SuccessResponse.data = city;
-        return res
-                .status(StatusCodes.OK)
-                .json(SuccessResponse);
-    } catch (error) {
-        ErrorResponse.error = error;
-        return res
-                .status(error.statusCode)
-                .json(ErrorResponse);
-    }
-}
-
-/**
- * UPDATE : /cities/:id
- * req-body {name: 'Goa'}
- */
-async function updateCity(req, res) {
-    try {
-        const city = await CityService.updateCity(req.params.id, {
-            name: req.body.name
+        const user = await UserService.signin({
+            email: req.body.email,
+            password: req.body.password
         });
-        SuccessResponse.data = city;
+        SuccessResponse.data = user;
         return res
-                .status(StatusCodes.OK)
+                .status(StatusCodes.CREATED)
                 .json(SuccessResponse);
     } catch (error) {
+        console.log(error)
         ErrorResponse.error = error;
         return res
                 .status(error.statusCode)
@@ -73,6 +52,5 @@ async function updateCity(req, res) {
 
 module.exports = {
     createUser,
-    destroyCity,
-    updateCity
+    signin
 }

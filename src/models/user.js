@@ -38,6 +38,7 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'User',
   });
 
+  // sequelize hooks
   User.beforeCreate(function encrypt(user) {
     console.log('user details bfor enc :', user);
     const encryptedPassword = bcrypt.hashSync(user.password, +ServerConfig.SALT_ROUNDS);
