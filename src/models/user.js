@@ -40,10 +40,10 @@ module.exports = (sequelize, DataTypes) => {
 
   // sequelize hooks
   User.beforeCreate(function encrypt(user) {
-    console.log('user details bfor enc :', user);
+    //console.log('user details bfor enc :', user);
     const encryptedPassword = bcrypt.hashSync(user.password, +ServerConfig.SALT_ROUNDS);
     user.password = encryptedPassword;
-    console.log('user details bfor enc :', user);
+    //console.log('user details aftr enc :', user);
   });
 
   return User;
