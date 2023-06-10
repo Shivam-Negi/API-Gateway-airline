@@ -18,7 +18,10 @@ app.use(express.urlencoded({extended: true}));
 
 app.use(limiter);
 
-// 2 ways to implement
+// still need to implement that only admins and flight_company will
+// be able to make changes in flights
+
+// 2 ways to implement proxy middleware
 app.use('/flightsService', createProxyMiddleware({ 
     target: ServerConfig.FLIGHT_SERVICE, 
     changeOrigin: true, 

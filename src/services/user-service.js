@@ -6,6 +6,19 @@ const { Auth, Enums } = require('../utils/common');
 const userRepo = new UserRepository();
 const roleRepo = new RoleRepository();
 
+async function getUser(id) {
+    try {
+        const user = await userRepo.get(id);
+        return user;
+    } catch (error) {
+        //console.log(error)
+        if(error.statusCode == StatusCodes.NOT_FOUND) {
+            throw new AppError('The user you requested is not present', error.statusCode);
+        }
+        throw new AppError('Cannot fetch data of the user', StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+}
+
 async function createUser(data) {
     try {
         const user = await userRepo.create(data);
@@ -111,6 +124,7 @@ async function isAdmin(id) {
 }
 
 module.exports = {
+    getUser,
     createUser,
     signin,
     isAuthenticated,
